@@ -1,0 +1,100 @@
+name: ci
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: build, vet, test (race+shuffle)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: stable
+          cache: true
+
+      - name: gofmt -s
+        run: |
+          set -euo pipefail
+          out=$(gofmt -s -l .)
+          if [ -n "$out" ]; then
+            echo "gofmt -s found formatting issues in:"
+            echo "$out"
+            echo
+            echo "Run 'gofmt -s -w .' locally."
+            exit 1
+          fi
+
+      - name: go vet
+        run: go vet ./...
+
+      - name: go build
+        run: go build ./...
+
+      - name: go test (race + shuffle)
+        run: go test -race -shuffle=on ./...
+
+  vulncheck:
+    name: govulncheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: stable
+          cache: true
+
+      - name: install govulncheck
+        run: go install golang.org/x/vuln/cmd/govulncheck@latest
+
+      - name: govulncheck ./...
+        run: govulncheck ./...
+
+  gosec:
+    name: gosec
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: stable
+          cache: true
+
+      - name: install gosec
+        run: go install github.com/securego/gosec/v2/cmd/gosec@latest
+
+      - name: gosec ./...
+        # -no-fail keeps the job advisory; flip to fail-on-finding once the
+        # existing baseline is triaged.
+        run: gosec -quiet -no-fail -fmt text -exclude-dir=grpc/gen -exclude-dir=examples ./...
+
+  discord-bot-submodule:
+    name: discord-bot submodule build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: examples/discord-bot
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: stable
+          cache: true
+          cache-dependency-path: examples/discord-bot/go.sum
+
+      - name: go build
+        run: go build ./...
+
+      - name: go vet
+        run: go vet ./...
