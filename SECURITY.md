@@ -21,7 +21,7 @@ We acknowledge reports within 3 business days, share a remediation plan within 1
 
 In scope:
 
-- Code under this repository's library packages: `chat/`, `responses/`, `images/`, `videos/`, `voice/**`, `models/`, `files/`, `batches/`, `grpc/`, `agents/**`, `discord/`, `prompt/`, `runnable/`, `workflow/`, `queue/`, `memory/`, `cache/`, `internal/**`.
+- Code under this repository's library packages in the root module (`chat/`, `responses/`, `images/`, `videos/`, `voice/**`, `models/`, `files/`, `batches/`, `grpc/`, `agents/`, `agents/durable/`, `agents/eval/`, `agents/harness/`, `agents/sandbox/`, `discord/`, `prompt/`, `runnable/`, `workflow/`, `queue/`, `memory/`, `cache/`, `council/`, `internal/**`) and the `agents/tracing/` submodule.
 - Example programs under `examples/**` are reviewed on a best-effort basis. They demonstrate SDK usage; production deployments should re-audit them for their own threat model.
 
 Out of scope:
