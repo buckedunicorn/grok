@@ -1,3 +1,8 @@
+// Package transport is the shared HTTP layer used by every public
+// sub-client (chat, responses, images, ...). It owns base-URL handling,
+// authentication, retry, response-size limits, and the SSE stream
+// reader. The package is internal so callers configure it indirectly via
+// the grok.With* options on the root client.
 package transport
 
 import (

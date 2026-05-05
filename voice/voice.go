@@ -33,12 +33,17 @@ type TTSRequest struct {
 	TextNormalization        *bool        `json:"text_normalization,omitempty"`
 }
 
+// AudioFormat selects the encoding of generated TTS audio. Codec picks
+// the container; SampleRate and BitRate are codec-specific (BitRate
+// applies only to MP3).
 type AudioFormat struct {
 	Codec      string `json:"codec"` // "mp3" | "wav" | "pcm" | "mulaw" | "alaw"
 	SampleRate *int   `json:"sample_rate,omitempty"`
 	BitRate    *int   `json:"bit_rate,omitempty"` // MP3 only
 }
 
+// Voice is one available TTS voice. Pass VoiceID to TTSRequest.VoiceID
+// to render speech in that voice.
 type Voice struct {
 	VoiceID  string  `json:"voice_id"`
 	Name     string  `json:"name"`
@@ -99,6 +104,8 @@ type Transcript struct {
 	Channels []ChannelTranscript `json:"channels"`
 }
 
+// TranscriptWord is one word in a transcript with its time bounds.
+// Speaker is non-nil when STTRequest.Diarize was true.
 type TranscriptWord struct {
 	Text       string  `json:"text"`
 	Start      float64 `json:"start"`
@@ -107,6 +114,9 @@ type TranscriptWord struct {
 	Speaker    *int    `json:"speaker"`
 }
 
+// ChannelTranscript is one channel's transcript when STTRequest.Multichannel
+// was true. The top-level Transcript.Text concatenates across channels;
+// per-channel text and words live here.
 type ChannelTranscript struct {
 	Index    int              `json:"index"`
 	Language string           `json:"language"`
@@ -161,14 +171,22 @@ type EphemeralTokenRequest struct {
 	Session      *RealtimeSession `json:"session,omitempty"`
 }
 
+// ExpiresAfter sets the lifetime of an ephemeral realtime token in
+// seconds. Defaults to 60 when omitted; max 600.
 type ExpiresAfter struct {
 	Seconds int `json:"seconds"`
 }
 
+// RealtimeSession pre-configures the realtime session the ephemeral
+// token unlocks. Model selects which voice model the eventual WebSocket
+// connection will use.
 type RealtimeSession struct {
 	Model string `json:"model,omitempty"` // "grok-voice-fast-1.0" | "grok-voice-think-fast-1.0"
 }
 
+// EphemeralToken is a short-lived bearer credential for the realtime
+// WebSocket. Treat it like a password; it cannot be revoked early.
+// ExpiresAt is a Unix epoch second.
 type EphemeralToken struct {
 	Value     string `json:"value"`
 	ExpiresAt int64  `json:"expires_at"`

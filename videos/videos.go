@@ -46,6 +46,8 @@ type ExtendRequest struct {
 	Duration *int        `json:"duration,omitempty"` // seconds, 1–10
 }
 
+// VideoSource references an existing video by URL, used for edit and
+// extend requests. URL is either an https:// link or a data: URI.
 type VideoSource struct {
 	URL string `json:"url"`
 }
@@ -65,17 +67,22 @@ type VideoResult struct {
 	Usage    *VideoUsage `json:"usage"`
 }
 
+// VideoData is the produced clip on a successful run. Duration is in
+// seconds. URL is short-lived; download promptly or persist the bytes.
 type VideoData struct {
 	URL               string `json:"url"`
 	Duration          int    `json:"duration"`
 	RespectModeration bool   `json:"respect_moderation"`
 }
 
+// VideoError is populated in VideoResult when Status is "failed".
 type VideoError struct {
 	Code    string `json:"code"`
 	Message string `json:"message"`
 }
 
+// VideoUsage reports billing for a video request. CostInUSDTicks is in
+// micro-cents (10^-6 USD); divide by 1e8 for dollars.
 type VideoUsage struct {
 	CostInUSDTicks int64 `json:"cost_in_usd_ticks"`
 }

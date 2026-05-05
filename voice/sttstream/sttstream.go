@@ -82,6 +82,8 @@ type TranscriptEvent struct {
 	Error       string           `json:"error,omitempty"`
 }
 
+// TranscriptWord is one word in a streaming transcript with its time
+// bounds. Speaker is non-nil when diarization was enabled at Dial time.
 type TranscriptWord struct {
 	Text       string  `json:"text"`
 	Start      float64 `json:"start"`
@@ -90,6 +92,9 @@ type TranscriptWord struct {
 	Speaker    *int    `json:"speaker"`
 }
 
+// ChannelResult is one channel's transcript when multichannel was
+// enabled at Dial time. The top-level event's Text concatenates across
+// channels; per-channel detail lives here.
 type ChannelResult struct {
 	Index    int              `json:"index"`
 	Language string           `json:"language"`

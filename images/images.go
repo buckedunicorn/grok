@@ -40,6 +40,8 @@ type EditRequest struct {
 	User           string        `json:"user,omitempty"`
 }
 
+// ImageSource references an existing image by URL, used for edit and
+// extend requests. URL is either an https:// link or a data: URI.
 type ImageSource struct {
 	URL string `json:"url"`
 }
@@ -50,6 +52,9 @@ type ImageResponse struct {
 	Usage *ImageUsage `json:"usage"`
 }
 
+// ImageData is one generated image. Exactly one of URL or B64JSON is set
+// based on the request's ResponseFormat. RevisedPrompt is the prompt the
+// model actually used after any safety or style normalization.
 type ImageData struct {
 	URL           string `json:"url,omitempty"`
 	B64JSON       string `json:"b64_json,omitempty"`
@@ -57,6 +62,8 @@ type ImageData struct {
 	RevisedPrompt string `json:"revised_prompt"`
 }
 
+// ImageUsage reports billing for an image request. CostInUSDTicks is in
+// micro-cents (10^-6 USD); divide by 1e8 for dollars.
 type ImageUsage struct {
 	CostInUSDTicks int64 `json:"cost_in_usd_ticks"`
 }

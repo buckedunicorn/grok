@@ -21,6 +21,12 @@ func NewClient(t *transport.Transport) *Client { return &Client{t: t} }
 
 // --- Request types ---
 
+// CreateRequest is the body of POST /v1/chat/completions.
+//
+// Pointer fields are optional and elided when nil so the wire format
+// distinguishes "default" from "explicitly zero". Unknown fields on the
+// wire are ignored; missing pointer fields take the API's documented
+// default.
 type CreateRequest struct {
 	Model               string          `json:"model"`
 	Messages            []Message       `json:"messages"`
@@ -45,6 +51,11 @@ type CreateRequest struct {
 	Deferred            bool            `json:"deferred,omitempty"`
 }
 
+// Message is one entry in the conversation transcript.
+//
+// Content is either a plain string (the common case) or a []ContentPart
+// for multi-modal inputs (text + images). The type assertion happens at
+// JSON-encode time, so callers can mix shapes across messages.
 type Message struct {
 	Role       string     `json:"role"`
 	Content    any        `json:"content"` // string or []ContentPart
@@ -59,39 +70,53 @@ type Message struct {
 	ReasoningContent string `json:"reasoning_content,omitempty"`
 }
 
+// ContentPart is one element of a multi-modal Message.Content slice.
 type ContentPart struct {
 	Type     string    `json:"type"` // "text" | "image_url"
 	Text     string    `json:"text,omitempty"`
 	ImageURL *ImageURL `json:"image_url,omitempty"`
 }
 
+// ImageURL references an image to include in a multi-modal message.
+// URL is either an https:// link or a data: URI. Detail controls how
+// many tokens the model spends interpreting the image.
 type ImageURL struct {
 	URL    string `json:"url"`
 	Detail string `json:"detail,omitempty"` // "low" | "high" | "auto"
 }
 
+// Tool advertises one function the model may call.
 type Tool struct {
 	Type     string      `json:"type"` // "function"
 	Function FunctionDef `json:"function"`
 }
 
+// FunctionDef describes a single tool's name, purpose, and JSON Schema.
+// Parameters is rendered to JSON as-is, so any value that marshals to a
+// valid JSON Schema object is acceptable (a map[string]any literal, a
+// hand-built struct, or a *json.RawMessage).
 type FunctionDef struct {
 	Name        string `json:"name"`
 	Description string `json:"description,omitempty"`
 	Parameters  any    `json:"parameters,omitempty"` // JSON Schema object
 }
 
+// ToolCall is one tool invocation the model emitted on a turn.
 type ToolCall struct {
 	ID       string           `json:"id"`
 	Type     string           `json:"type"` // "function"
 	Function FunctionCallData `json:"function"`
 }
 
+// FunctionCallData carries the function name and the model's JSON-encoded
+// argument string. Arguments is a string (not parsed JSON) so callers can
+// surface a streamed-but-incomplete fragment without rejecting it.
 type FunctionCallData struct {
 	Name      string `json:"name"`
 	Arguments string `json:"arguments"` // JSON-encoded
 }
 
+// SearchParams configures live web/X search injection on a chat request.
 type SearchParams struct {
 	Mode             string   `json:"mode,omitempty"` // "off" | "on" | "auto"
 	MaxSearchResults *int     `json:"max_search_results,omitempty"`
@@ -101,6 +126,9 @@ type SearchParams struct {
 	ToDate           string   `json:"to_date,omitempty"`
 }
 
+// ResponseFormat constrains the output shape. Use Type "json_object" for
+// any-valid-JSON responses or "json_schema" with a schema in JSONSchema to
+// require a specific structure.
 type ResponseFormat struct {
 	Type       string           `json:"type"` // "text" | "json_object" | "json_schema"
 	JSONSchema *json.RawMessage `json:"json_schema,omitempty"`
@@ -108,6 +136,11 @@ type ResponseFormat struct {
 
 // --- Response types ---
 
+// Completion is the body of a successful POST /v1/chat/completions.
+//
+// Choices is always non-empty on a 2xx response; the common case is N=1
+// and Choices[0].Message holds the assistant reply. Citations is populated
+// when SearchParameters.ReturnCitations was true on the request.
 type Completion struct {
 	ID                string     `json:"id"`
 	Object            string     `json:"object"`
@@ -119,12 +152,19 @@ type Completion struct {
 	SystemFingerprint string     `json:"system_fingerprint"`
 }
 
+// Choice is one alternative completion within a Completion.
+//
+// FinishReason is one of "stop", "length", "tool_calls",
+// "content_filter", or "function_call". Tool-use loops should branch on
+// "tool_calls".
 type Choice struct {
 	Index        int     `json:"index"`
 	Message      Message `json:"message"`
 	FinishReason string  `json:"finish_reason"`
 }
 
+// Usage reports token consumption for the request. CostInUSDTicks is in
+// micro-cents (10^-6 USD); divide by 1e8 for dollars.
 type Usage struct {
 	PromptTokens            int                     `json:"prompt_tokens"`
 	CompletionTokens        int                     `json:"completion_tokens"`
@@ -135,6 +175,9 @@ type Usage struct {
 	CostInUSDTicks          int64                   `json:"cost_in_usd_ticks"`
 }
 
+// PromptTokensDetails breaks the prompt's token count down by modality.
+// CachedTokens is the slice the API served from its prompt-prefix cache;
+// see the cache package for tuning conv-id.
 type PromptTokensDetails struct {
 	TextTokens   int `json:"text_tokens"`
 	AudioTokens  int `json:"audio_tokens"`
@@ -142,6 +185,9 @@ type PromptTokensDetails struct {
 	CachedTokens int `json:"cached_tokens"`
 }
 
+// CompletionTokensDetails breaks the completion's token count down by
+// kind. ReasoningTokens count toward billing but never appear in the
+// visible Message.Content; they are the model's hidden chain-of-thought.
 type CompletionTokensDetails struct {
 	ReasoningTokens          int `json:"reasoning_tokens"`
 	AudioTokens              int `json:"audio_tokens"`
@@ -149,6 +195,7 @@ type CompletionTokensDetails struct {
 	RejectedPredictionTokens int `json:"rejected_prediction_tokens"`
 }
 
+// Citation is one source the model consulted via live search.
 type Citation struct {
 	URL   string `json:"url"`
 	Title string `json:"title"`
@@ -164,12 +211,18 @@ type Chunk struct {
 	Usage   *Usage        `json:"usage"` // only in final chunk when stream_options.include_usage=true
 }
 
+// ChunkChoice is a streaming-mode counterpart to Choice. Delta carries
+// the incremental piece for this chunk; FinishReason is empty until the
+// final chunk for this index.
 type ChunkChoice struct {
 	Index        int    `json:"index"`
 	Delta        Delta  `json:"delta"`
 	FinishReason string `json:"finish_reason"`
 }
 
+// Delta is the incremental update inside one streaming chunk. The first
+// chunk for a choice carries Role; subsequent chunks accumulate Content.
+// Tool-call deltas may stream the Arguments field across multiple chunks.
 type Delta struct {
 	Role      string     `json:"role,omitempty"`
 	Content   string     `json:"content,omitempty"`

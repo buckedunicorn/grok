@@ -102,6 +102,9 @@ type SessionConfig struct {
 	OutputAudioFormat string `json:"output_audio_format,omitempty"`
 }
 
+// Tool advertises one function the realtime model may call. Mirrors
+// chat.Tool with a flatter shape; the realtime API does not nest the
+// function definition the way chat completions do.
 type Tool struct {
 	Type        string `json:"type"` // "function"
 	Name        string `json:"name"`

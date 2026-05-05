@@ -32,6 +32,9 @@ type Batch struct {
 	State              BatchState `json:"state"`
 }
 
+// BatchState is the rolling tally for a batch. NumRequests is the total
+// added; NumSuccess + NumError + NumCancelled + NumPending equals
+// NumRequests when the batch is fully accounted for.
 type BatchState struct {
 	NumRequests  int `json:"num_requests"`
 	NumPending   int `json:"num_pending"`
@@ -82,11 +85,15 @@ type BatchResult struct {
 	BatchResult    ResultUnion `json:"batch_result"`
 }
 
+// ResultUnion is the success-or-error envelope for a single batch result.
+// Exactly one of Response or Error is set per row.
 type ResultUnion struct {
 	Response *ResultResponse `json:"response,omitempty"`
 	Error    string          `json:"error,omitempty"`
 }
 
+// ResultResponse wraps the embedded chat completion payload. Decode
+// ChatGetCompletion into chat.Completion (or your own type) to read it.
 type ResultResponse struct {
 	ChatGetCompletion any `json:"chat_get_completion"`
 }

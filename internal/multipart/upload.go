@@ -1,3 +1,6 @@
+// Package multipart builds multipart/form-data request bodies for the
+// SDK's upload endpoints (files, STT). It is internal because callers
+// reach it indirectly through the public client methods.
 package multipart
 
 import (
