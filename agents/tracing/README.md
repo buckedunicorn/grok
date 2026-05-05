@@ -6,8 +6,6 @@ OpenTelemetry instrumentation for [`agents.Runner`](..). Drop the returned hooks
 import "github.com/buckedunicorn/grok/agents/tracing"
 ```
 
-This package is a **separate Go module** (its own `go.mod`) so the OpenTelemetry dependency tree stays out of consumers who only want the core SDK. `go get github.com/buckedunicorn/grok/agents/tracing` to pull it in alongside `github.com/buckedunicorn/grok`.
-
 ## Surface
 
 | Function | Purpose |

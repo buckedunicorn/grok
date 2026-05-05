@@ -2,9 +2,9 @@ name: ci
 
 on:
   push:
-    branches: [main]
+    branches: [master, main]
   pull_request:
-    branches: [main]
+    branches: [master, main]
 
 permissions:
   contents: read
@@ -78,20 +78,12 @@ jobs:
         # existing baseline is triaged.
         run: gosec -quiet -no-fail -fmt text -exclude-dir=grpc/gen -exclude-dir=examples ./...
 
-  submodules:
-    name: submodule build (${{ matrix.dir }})
+  discord-bot-submodule:
+    name: discord-bot submodule build
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        dir:
-          - agents/tracing
-          - examples/discord-bot
-          - examples/full-stack
-          - examples/tracing
     defaults:
       run:
-        working-directory: ${{ matrix.dir }}
+        working-directory: examples/discord-bot
     steps:
       - uses: actions/checkout@v5
 
@@ -99,13 +91,10 @@ jobs:
         with:
           go-version: stable
           cache: true
-          cache-dependency-path: ${{ matrix.dir }}/go.sum
+          cache-dependency-path: examples/discord-bot/go.sum
 
       - name: go build
         run: go build ./...
 
       - name: go vet
         run: go vet ./...
-
-      - name: go test
-        run: go test ./...

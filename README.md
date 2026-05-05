@@ -65,7 +65,7 @@ The root client (`grok.New(...)`) wires up sub-clients for every API surface. Im
 | [`agents/durable`](./agents/durable) | Checkpoint persistence (`MemoryStore`, `FileStore`) for resumable agent runs |
 | [`agents/eval`](./agents/eval) | Score `RunResult` values: scorers, suites, pass@1 / latency aggregation |
 | [`agents/sandbox`](./agents/sandbox) | Sandboxing implementations of the `harness.Executor` contract (Docker today) |
-| [`agents/tracing`](./agents/tracing) | OpenTelemetry instrumentation for `agents.Runner` (separate Go module) |
+| [`agents/tracing`](./agents/tracing) | OpenTelemetry instrumentation for `agents.Runner` |
 | [`discord`](./discord) | Discord-friendly chat sugar: tool-aware `Agent`, `Sender` interface, pre-wired media and server-side tool factories |
 | [`prompt`](./prompt) | Minimal `{name}` template substitution for chat messages |
 | [`runnable`](./runnable) | Generic `Runnable[In, Out]` interface and combinators (`Pipe`, `Parallel`, `Branch`, `Map`, `Retry`) |
@@ -104,7 +104,7 @@ The [`examples/`](./examples) directory holds runnable demonstrations of every A
 - [`discord`](./examples/discord), [`discord-bot`](./examples/discord-bot)
 - [`council`](./examples/council), [`memory`](./examples/memory), [`workflow`](./examples/workflow), [`queue`](./examples/queue), [`cache`](./examples/cache), [`sugar`](./examples/sugar)
 
-Most examples live in the root module and run with `go run ./examples/<name>`. A handful are nested Go modules with their own `go.mod` to keep heavyweight or optional dependencies out of the root tree (`examples/discord-bot` for `discordgo`, `examples/tracing` and `examples/full-stack` for OpenTelemetry); build those from inside their directory.
+Most examples live in the root module and run with `go run ./examples/<name>`. A handful that need heavyweight third-party dependencies (notably `examples/discord-bot` with `discordgo`) are nested Go modules with their own `go.mod`; build those from inside their directory so the root module stays slim.
 
 ## Testing
 
