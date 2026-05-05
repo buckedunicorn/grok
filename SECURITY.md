@@ -6,7 +6,7 @@ Thank you for taking the time to make grok safer. This document describes how to
 
 Please report suspected vulnerabilities privately. Do not open a public GitHub issue for security reports.
 
-- Preferred: open a private security advisory at <https://github.com/buckedunicorn/grok/security/advisories/new>.
+- Email: <security@buckedunicorn.com>.
 
 Include in your report:
 
@@ -41,7 +41,7 @@ The SDK assumes:
 
 ## Supported versions
 
-Security fixes ship against `master` and the most recent tagged minor version. Older releases are supported only at the maintainer's discretion.
+Security fixes ship against `main` and the most recent tagged minor version. Older releases are supported only at the maintainer's discretion.
 
 ## Recognition
 
