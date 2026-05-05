@@ -75,6 +75,17 @@ The root client (`grok.New(...)`) wires up sub-clients for every API surface. Im
 | [`cache`](./cache) | Prompt-cache helpers for the `x-grok-conv-id` header |
 | [`council`](./council) | Multi-agent roundtable: ask N agents the same prompt and synthesize |
 
+## Documentation
+
+| Guide | When to read |
+|---|---|
+| [Getting started](./docs/getting-started.md) | First call, picking a model, common 401/404/timeout failure modes. |
+| [Configuration](./docs/configuration.md) | Every `With*` option, request-level fields, env vars, and the headers the SDK sends. |
+| [Streaming and tools](./docs/streaming-and-tools.md) | SSE patterns, tool-use loops, the `RunAgent` vs `agents.Runner` decision. |
+| [Production guide](./docs/production.md) | Retries, rate limits, prompt caching, sandboxing, observability, cost tracking. |
+
+Per-package READMEs under [`chat/`](./chat), [`responses/`](./responses), [`images/`](./images), [`videos/`](./videos), [`voice/`](./voice), [`agents/`](./agents), [`discord/`](./discord), and friends document the package-specific surface.
+
 ## Common configuration
 
 ```go
