@@ -73,6 +73,7 @@ The root client (`grok.New(...)`) wires up sub-clients for every API surface. Im
 | [`queue`](./queue) | Token-bucket rate limiter for outgoing API calls |
 | [`memory`](./memory) | Conversation and agent memory backends (in-memory, file-based) |
 | [`cache`](./cache) | Prompt-cache helpers for the `x-grok-conv-id` header |
+| [`council`](./council) | Multi-agent roundtable: ask N agents the same prompt and synthesize |
 
 ## Common configuration
 
