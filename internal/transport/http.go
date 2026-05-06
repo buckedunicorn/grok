@@ -68,14 +68,12 @@ type APIError = apierr.APIError
 // 5-minute timeout. The base URL must be https:// unless
 // allowInsecureBase is true (use NewInsecure for that).
 func New(apiKey, baseURL string, client *http.Client) *Transport {
-	t, err := newWithOptions(apiKey, baseURL, client, false)
-	if err != nil {
-		// Preserve historical signature: callers expect non-nil
-		// transport. Fall back to an unsafe transport so they get the
-		// expected error on first request rather than a nil-pointer
-		// panic. The validation error is returned via every Do call
-		// thanks to the stored baseURLErr field.
-		t = &Transport{Client: defaultHTTPClient(), BaseURL: baseURL, APIKey: apiKey, bearer: "Bearer " + apiKey, baseURLErr: err}
+	t := newTransport(apiKey, baseURL, client, false)
+	// Validate the scheme. On failure the transport is still returned
+	// so callers see the error on first Do (preserving the historical
+	// signature) rather than a nil-pointer panic.
+	if err := requireHTTPS(t.BaseURL); err != nil {
+		t.baseURLErr = err
 	}
 	return t
 }
@@ -83,18 +81,14 @@ func New(apiKey, baseURL string, client *http.Client) *Transport {
 // NewInsecure is like New but accepts http:// base URLs. Use only for
 // tests or for trusted on-network mirrors that do not speak TLS.
 func NewInsecure(apiKey, baseURL string, client *http.Client) *Transport {
-	t, _ := newWithOptions(apiKey, baseURL, client, true)
-	return t
+	return newTransport(apiKey, baseURL, client, true)
 }
 
-func newWithOptions(apiKey, baseURL string, client *http.Client, allowInsecure bool) (*Transport, error) {
+// newTransport assembles a *Transport with default fallbacks. It cannot
+// fail; scheme validation is the caller's responsibility.
+func newTransport(apiKey, baseURL string, client *http.Client, allowInsecure bool) *Transport {
 	if baseURL == "" {
 		baseURL = defaultBaseURL
-	}
-	if !allowInsecure {
-		if err := requireHTTPS(baseURL); err != nil {
-			return nil, err
-		}
 	}
 	if client == nil {
 		client = defaultHTTPClient()
@@ -105,7 +99,7 @@ func newWithOptions(apiKey, baseURL string, client *http.Client, allowInsecure b
 		APIKey:               apiKey,
 		AllowInsecureBaseURL: allowInsecure,
 		bearer:               "Bearer " + apiKey,
-	}, nil
+	}
 }
 
 func defaultHTTPClient() *http.Client {
