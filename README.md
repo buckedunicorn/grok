@@ -129,6 +129,12 @@ XAI_API_KEY=... go test ./... -v       # full integration sweep
 
 Use `grok-4-1-fast-reasoning` or `grok-4-1-fast-non-reasoning` for production-accuracy tests, and `grok-3-mini-fast` for cheaper smoke tests.
 
+## Project
+
+- [Changelog](./CHANGELOG.md) — release-by-release notes following Keep a Changelog.
+- [Releasing](./RELEASING.md) — versioning policy and the steps to cut a tag.
+- [Security policy](./SECURITY.md) — coordinated disclosure address, scope, threat model.
+
 ## References
 
 - [Models and pricing](https://docs.x.ai/developers/models)
