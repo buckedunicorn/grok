@@ -32,7 +32,7 @@ Use `harness.NewDefault` when you want a working agent without hand-rolling the 
 
 ```go
 import (
-    grok "github.com/buckedunicorn/grok"
+    "github.com/buckedunicorn/grok"
     "github.com/buckedunicorn/grok/agents/harness"
     "github.com/buckedunicorn/grok/agents/sandbox"
 )

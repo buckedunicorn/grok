@@ -77,7 +77,7 @@ The fallback URLs are a recurring pattern: when the model omits `image_url` / `v
 
 ```go
 import (
-    grok "github.com/buckedunicorn/grok"
+    "github.com/buckedunicorn/grok"
     "github.com/buckedunicorn/grok/chat"
     "github.com/buckedunicorn/grok/discord"
 )

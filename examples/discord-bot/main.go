@@ -36,7 +36,7 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 
-	grok "github.com/buckedunicorn/grok"
+	"github.com/buckedunicorn/grok"
 	"github.com/buckedunicorn/grok/chat"
 	"github.com/buckedunicorn/grok/discord"
 )

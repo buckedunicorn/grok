@@ -9,7 +9,7 @@ import (
 	"os"
 	"path/filepath"
 
-	grok "github.com/buckedunicorn/grok"
+	"github.com/buckedunicorn/grok"
 	"github.com/buckedunicorn/grok/chat"
 	"github.com/buckedunicorn/grok/memory"
 )

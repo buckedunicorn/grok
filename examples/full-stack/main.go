@@ -21,7 +21,7 @@ import (
 	"go.opentelemetry.io/otel/exporters/stdout/stdouttrace"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 
-	grok "github.com/buckedunicorn/grok"
+	"github.com/buckedunicorn/grok"
 	"github.com/buckedunicorn/grok/agents"
 	"github.com/buckedunicorn/grok/agents/durable"
 	"github.com/buckedunicorn/grok/agents/harness"

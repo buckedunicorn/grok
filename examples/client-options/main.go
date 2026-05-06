@@ -16,7 +16,7 @@ import (
 	"os"
 	"sync"
 
-	grok "github.com/buckedunicorn/grok"
+	"github.com/buckedunicorn/grok"
 	"github.com/buckedunicorn/grok/chat"
 )
 

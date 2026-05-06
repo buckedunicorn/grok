@@ -33,7 +33,7 @@ import (
 	"strconv"
 	"strings"
 
-	grok "github.com/buckedunicorn/grok"
+	"github.com/buckedunicorn/grok"
 	"github.com/buckedunicorn/grok/agents"
 	"github.com/buckedunicorn/grok/agents/harness"
 	"github.com/buckedunicorn/grok/agents/sandbox"

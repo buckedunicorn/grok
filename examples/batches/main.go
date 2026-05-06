@@ -13,7 +13,7 @@ import (
 	"os"
 	"time"
 
-	grok "github.com/buckedunicorn/grok"
+	"github.com/buckedunicorn/grok"
 	"github.com/buckedunicorn/grok/batches"
 )
 

@@ -9,7 +9,7 @@ import (
 	"os"
 	"strings"
 
-	grok "github.com/buckedunicorn/grok"
+	"github.com/buckedunicorn/grok"
 	"github.com/buckedunicorn/grok/chat"
 )
 

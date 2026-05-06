@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	grok "github.com/buckedunicorn/grok"
+	"github.com/buckedunicorn/grok"
 	"github.com/buckedunicorn/grok/internal/apierr"
 )
 

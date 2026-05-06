@@ -7,7 +7,7 @@ import (
 	"io"
 	"os"
 
-	grok "github.com/buckedunicorn/grok"
+	"github.com/buckedunicorn/grok"
 	xaiv1 "github.com/buckedunicorn/grok/grpc/gen/xai/api/v1"
 )
 

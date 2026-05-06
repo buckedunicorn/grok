@@ -3,7 +3,7 @@
 An idiomatic, batteries-included Go client SDK for the [xAI Grok API](https://docs.x.ai/developers/rest-api-reference/inference).
 
 ```go
-import grok "github.com/buckedunicorn/grok"
+import "github.com/buckedunicorn/grok"
 ```
 
 ```sh
@@ -20,7 +20,7 @@ import (
     "fmt"
     "os"
 
-    grok "github.com/buckedunicorn/grok"
+    "github.com/buckedunicorn/grok"
     "github.com/buckedunicorn/grok/chat"
 )
 

@@ -7,7 +7,7 @@ import (
 	"io"
 	"os"
 
-	grok "github.com/buckedunicorn/grok"
+	"github.com/buckedunicorn/grok"
 	"github.com/buckedunicorn/grok/chat"
 )
 

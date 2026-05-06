@@ -37,7 +37,7 @@ import "github.com/buckedunicorn/grok/agents"
 
 ```go
 import (
-    grok "github.com/buckedunicorn/grok"
+    "github.com/buckedunicorn/grok"
     "github.com/buckedunicorn/grok/agents"
 )
 

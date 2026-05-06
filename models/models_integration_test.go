@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	grok "github.com/buckedunicorn/grok"
+	"github.com/buckedunicorn/grok"
 )
 
 func client(t *testing.T) *grok.Client {

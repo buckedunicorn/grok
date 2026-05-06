@@ -16,7 +16,7 @@ import (
 	"fmt"
 	"os"
 
-	grok "github.com/buckedunicorn/grok"
+	"github.com/buckedunicorn/grok"
 	"github.com/buckedunicorn/grok/chat"
 	"github.com/buckedunicorn/grok/prompt"
 	"github.com/buckedunicorn/grok/runnable"

@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"os"
 
-	grok "github.com/buckedunicorn/grok"
+	"github.com/buckedunicorn/grok"
 	"github.com/buckedunicorn/grok/agents"
 	"github.com/buckedunicorn/grok/agents/eval"
 )
