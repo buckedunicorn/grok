@@ -1,19 +1,19 @@
-// Package agents is the harness layer over chat.Client.
+// Package agents is the structured agent harness built on [chat.Client].
 //
-// The package provides composable primitives, Agent, Tool, Handoff, Session,
-// Guardrails, RunHooks, and a Runner that executes the tool-call loop while
-// capturing a structured Trajectory of every turn.
+// The package provides composable primitives — [Agent], [Tool], [Handoff],
+// [Session], [Guardrails], [RunHooks] — and a [Runner] that executes the
+// tool-call loop while capturing a structured [Trajectory] of every turn.
 //
 // For a procedural one-shot tool-call loop with no trajectory or handoffs,
-// use chat.Client.RunAgent directly. For multi-agent flows, guardrails,
-// observable trajectories, or middleware, use Runner.
+// use [chat.Client.RunAgent] directly. For multi-agent flows, guardrails,
+// observable trajectories, or middleware, use [Runner].
 //
 // The design mirrors openai-agents-python (the dominant 2026 convention)
 // with idiomatic Go differences:
 //
-//   - Agent is a value, not an object you mutate
-//   - Runner is the orchestrator; it holds policy (max turns, hooks, middleware)
-//   - Trajectory captures per-turn state so downstream tooling can analyze runs
+//   - [Agent] is a value, not an object you mutate
+//   - [Runner] is the orchestrator; it holds policy (max turns, hooks, middleware)
+//   - [Trajectory] captures per-turn state so downstream tooling can analyze runs
 package agents
 
 import (

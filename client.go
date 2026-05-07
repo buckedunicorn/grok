@@ -1,9 +1,21 @@
 // Package grok is an idiomatic Go client SDK for the xAI Grok API.
 //
-// Create a client with New(), then use its sub-clients for each API surface:
+// Create a client with [New], then access each API surface through its
+// sub-client:
 //
 //	client := grok.New(grok.WithAPIKey(os.Getenv("XAI_API_KEY")))
 //	resp, err := client.Chat.Create(ctx, &chat.CreateRequest{...})
+//
+// API surfaces exposed on [Client]:
+//   - [Client.Chat]      — chat completions, streaming, tool use ([chat.Client])
+//   - [Client.Responses] — stateful Responses API ([responses.Client])
+//   - [Client.Images]    — image generation and editing ([images.Client])
+//   - [Client.Videos]    — async video generation ([videos.Client])
+//   - [Client.Voice]     — TTS, STT, and realtime voice ([voice.Client])
+//   - [Client.Models]    — model listing ([models.Client])
+//   - [Client.Files]     — file upload and download ([files.Client])
+//   - [Client.Batches]   — async bulk inference ([batches.Client])
+//   - [Client.NewGRPC]   — gRPC transport alternative
 package grok
 
 import (
