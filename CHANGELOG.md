@@ -8,6 +8,13 @@ While the major version is `0`, the API may break between minor releases. Pin to
 
 Nothing yet. Pending work lands under one of: Added, Changed, Deprecated, Removed, Fixed, Security.
 
+## [0.1.2] - 2026-05-07
+
+### Security
+
+- Upgraded `golang.org/x/net` from v0.49.0 to v0.53.0, resolving GO-2026-4918 (infinite loop in HTTP/2 transport with malformed `SETTINGS_MAX_FRAME_SIZE`).
+- Raised minimum Go version to 1.26.3, resolving GO-2026-4971 (panic in `net.Dialer` and `net.LookupPort` on NUL byte input on Windows).
+
 ## [0.1.1] - 2026-05-07
 
 ### Added
@@ -75,6 +82,7 @@ Initial public release.
 - `SECURITY.md` disclosure policy.
 - `docs/` developer guides: [getting-started](./docs/getting-started.md), [configuration](./docs/configuration.md), [streaming-and-tools](./docs/streaming-and-tools.md), [production](./docs/production.md).
 
-[Unreleased]: https://github.com/buckedunicorn/grok/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/buckedunicorn/grok/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/buckedunicorn/grok/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/buckedunicorn/grok/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/buckedunicorn/grok/releases/tag/v0.1.0
