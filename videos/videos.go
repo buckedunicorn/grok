@@ -1,5 +1,10 @@
 // Package videos provides the /v1/videos/* endpoints.
-// Video generation is asynchronous, create returns a request_id; poll until status == "done".
+//
+// Video generation is asynchronous: [Client.Generate], [Client.Edit], and
+// [Client.Extend] all return a request_id immediately. Poll the result with
+// [Client.GetResult], or use the blocking [Client.Wait] helper which retries
+// at a caller-specified interval until the video reaches status "done" or
+// "failed".
 package videos
 
 import (

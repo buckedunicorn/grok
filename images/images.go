@@ -1,4 +1,9 @@
 // Package images provides the /v1/images/generations and /v1/images/edits endpoints.
+//
+// Use [Client.Generate] to create images from a text prompt and
+// [Client.Edit] to modify an existing image with a prompt and optional mask.
+// Responses contain a [ImageData] slice; each entry holds either a URL or
+// a base-64 JSON string depending on the request's ResponseFormat field.
 package images
 
 import (

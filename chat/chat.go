@@ -1,4 +1,19 @@
 // Package chat provides the /v1/chat/completions endpoint (OpenAI-compatible).
+//
+// The main entry point is [Client], obtained via the root grok.Client:
+//
+//	client := grok.New()
+//	comp, err := client.Chat.Create(ctx, &chat.CreateRequest{...})
+//
+// Key functions:
+//   - [Client.Create] — single-turn completion
+//   - [Client.Stream] — streaming completion over SSE; iterate with [Stream.Next]
+//   - [Client.RunAgent] — automatic tool-call loop until the model stops requesting tools
+//   - [NewConversation] — stateful multi-turn helper that carries message history
+//   - [Decode] — unmarshal a JSON completion into a typed value T
+//
+// For observable multi-agent runs with handoffs and guardrails, use the
+// agents package instead of [Client.RunAgent].
 package chat
 
 import (

@@ -1,4 +1,9 @@
 // Package models provides access to the xAI model listing endpoints.
+//
+// Four list endpoints are supported — [Client.List] (all models),
+// [Client.ListLanguage] (language models with full pricing info),
+// [Client.ListImageGeneration], and [Client.ListVideoGeneration] — plus
+// [Client.Get] and [Client.GetLanguage] for fetching a single model by ID.
 package models
 
 import (

@@ -1,4 +1,9 @@
 // Package files provides the /v1/files endpoints for managing uploaded files.
+//
+// Use [Client.Upload] or [Client.UploadPath] to send a file, [Client.Download]
+// to retrieve one, and [Client.Delete] to remove it. [Client.List] returns a
+// paginated result; [Client.All] wraps it as an [iter.Seq2] iterator for
+// range-based traversal without manual pagination.
 package files
 
 import (
