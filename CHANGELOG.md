@@ -8,6 +8,20 @@ While the major version is `0`, the API may break between minor releases. Pin to
 
 Nothing yet. Pending work lands under one of: Added, Changed, Deprecated, Removed, Fixed, Security.
 
+## [0.1.1] - 2026-05-07
+
+### Added
+
+- `LICENSE` (MIT) — omitted from v0.1.0; required for the module to be legally usable.
+- `Example*` functions in `example_test.go` files for the root package, `chat`, `responses`, `images`, `videos`, and `agents`. These appear as expandable code examples on pkg.go.dev.
+
+### Changed
+
+- Expanded package-level doc comments for `chat`, `images`, `videos`, `files`, and `models` to describe key types and usage patterns.
+- Root package doc now lists every sub-client with godoc cross-links.
+- `agents` and `chat` package docs use `[pkg.Type]` link syntax throughout.
+- Annotated git tag message format updated in `RELEASING.md` from bare version string to brief subject line (e.g. `grok vX.Y.Z`).
+
 ## [0.1.0] - 2026-05-06
 
 Initial public release.
@@ -61,5 +75,6 @@ Initial public release.
 - `SECURITY.md` disclosure policy.
 - `docs/` developer guides: [getting-started](./docs/getting-started.md), [configuration](./docs/configuration.md), [streaming-and-tools](./docs/streaming-and-tools.md), [production](./docs/production.md).
 
-[Unreleased]: https://github.com/buckedunicorn/grok/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/buckedunicorn/grok/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/buckedunicorn/grok/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/buckedunicorn/grok/releases/tag/v0.1.0
