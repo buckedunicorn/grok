@@ -37,7 +37,7 @@ The [`examples/discord-bot`](./examples/discord-bot) submodule is not versioned 
    ```sh
    git add CHANGELOG.md
    git commit -m "release: vX.Y.Z"
-   git tag -a vX.Y.Z -m "vX.Y.Z"
+   git tag -a vX.Y.Z -m "grok vX.Y.Z"
    ```
 
 5. **Push.**
